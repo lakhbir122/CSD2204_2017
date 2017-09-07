@@ -1,0 +1,335 @@
+
+Setting environment for using XAMPP for Windows.
+719506@203-IMAC16 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+5 rows in set (0.00 sec)
+
+MariaDB [(none)]> create databases myTestDB;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'databases myTestDB' at line 1
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+5 rows in set (0.00 sec)
+
+MariaDB [(none)]> use testdb;
+ERROR 1049 (42000): Unknown database 'testdb'
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> show table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [test]> SHOW TABLES;
+Empty set (0.00 sec)
+
+MariaDB [test]> create table student(sid int(5),snm varchar(25),gendar varchar(10),age int(3));
+Query OK, 0 rows affected (0.42 sec)
+
+MariaDB [test]> show table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [test]> show table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| student        |
++----------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> CREATE TABLE T(USE INT(1));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'USE INT(1))' at line 1
+MariaDB [test]> CREATE TABLE T(`USE` INT(1));
+Query OK, 0 rows affected (0.34 sec)
+
+MariaDB [test]> select * from students;
+ERROR 1146 (42S02): Table 'test.students' doesn't exist
+MariaDB [test]> select * from student;
+Empty set (0.00 sec)
+
+MariaDB [test]> INSERT INTO student VALUES (1,'lakhbir','male','22');
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [test]> select * from student;
++------+---------+--------+------+
+| sid  | snm     | gendar | age  |
++------+---------+--------+------+
+|    1 | lakhbir | male   |   22 |
++------+---------+--------+------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> INSERT INTO student (sid,snm,gender,age) values (1,'love','female','25');
+ERROR 1054 (42S22): Unknown column 'gender' in 'field list'
+MariaDB [test]> select * from student;
++------+---------+--------+------+
+| sid  | snm     | gendar | age  |
++------+---------+--------+------+
+|    1 | lakhbir | male   |   22 |
++------+---------+--------+------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> INSERT INTO student (sid,snm,gender,age) values (1,'love','female','25');
+ERROR 1054 (42S22): Unknown column 'gender' in 'field list'
+MariaDB [test]> INSERT INTO student (sid,snm,gendar,age) values (1,'love','female','25');
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [test]> select * from student;
++------+---------+--------+------+
+| sid  | snm     | gendar | age  |
++------+---------+--------+------+
+|    1 | lakhbir | male   |   22 |
+|    1 | love    | female |   25 |
++------+---------+--------+------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> insert into student values(2,'nav','female','30');
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [test]> select * from student;
++------+---------+--------+------+
+| sid  | snm     | gendar | age  |
++------+---------+--------+------+
+|    1 | lakhbir | male   |   22 |
+|    1 | love    | female |   25 |
+|    2 | nav     | female |   30 |
++------+---------+--------+------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from student where sid=1;
++------+---------+--------+------+
+| sid  | snm     | gendar | age  |
++------+---------+--------+------+
+|    1 | lakhbir | male   |   22 |
+|    1 | love    | female |   25 |
++------+---------+--------+------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from student where sid>=2;
++------+------+--------+------+
+| sid  | snm  | gendar | age  |
++------+------+--------+------+
+|    2 | nav  | female |   30 |
++------+------+--------+------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from student where sid!=2;
++------+---------+--------+------+
+| sid  | snm     | gendar | age  |
++------+---------+--------+------+
+|    1 | lakhbir | male   |   22 |
+|    1 | love    | female |   25 |
++------+---------+--------+------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from students where  gendar='male;;
+    '>
+    '> select * from students where  gendar='male;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'male' at line 1
+MariaDB [test]> select * from students where  gendar='male';
+ERROR 1146 (42S02): Table 'test.students' doesn't exist
+MariaDB [test]> select * from student where  gendar='male';
++------+---------+--------+------+
+| sid  | snm     | gendar | age  |
++------+---------+--------+------+
+|    1 | lakhbir | male   |   22 |
++------+---------+--------+------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from student limit2;
++------+---------+--------+------+
+| sid  | snm     | gendar | age  |
++------+---------+--------+------+
+|    1 | lakhbir | male   |   22 |
+|    1 | love    | female |   25 |
+|    2 | nav     | female |   30 |
++------+---------+--------+------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from student whee gendar='male' and sid=3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'gendar='male' and sid=3' at line 1
+MariaDB [test]> select * from student where gendar='male' and sid=3;
+Empty set (0.00 sec)
+
+MariaDB [test]> select * from student where sid=4 or sid=3;
+Empty set (0.00 sec)
+
+MariaDB [test]> select * from student where sid=1 or sid=1;
++------+---------+--------+------+
+| sid  | snm     | gendar | age  |
++------+---------+--------+------+
+|    1 | lakhbir | male   |   22 |
+|    1 | love    | female |   25 |
++------+---------+--------+------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> select * from student where sid=1 or sid=2;
++------+---------+--------+------+
+| sid  | snm     | gendar | age  |
++------+---------+--------+------+
+|    1 | lakhbir | male   |   22 |
+|    1 | love    | female |   25 |
+|    2 | nav     | female |   30 |
++------+---------+--------+------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> describe student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| sid    | int(5)      | YES  |     | NULL    |       |
+| snm    | varchar(25) | YES  |     | NULL    |       |
+| gendar | varchar(10) | YES  |     | NULL    |       |
+| age    | int(3)      | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.05 sec)
+
+MariaDB [test]> show create table student\g
++---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                                                                                                    |
++---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| student | CREATE TABLE `student` (
+  `sid` int(5) DEFAULT NULL,
+  `snm` varchar(25) DEFAULT NULL,
+  `gendar` varchar(10) DEFAULT NULL,
+  `age` int(3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 |
++---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from student where snm like'ab%';
+Empty set (0.00 sec)
+
+MariaDB [test]> select * from student where snm like'lo%';
++------+------+--------+------+
+| sid  | snm  | gendar | age  |
++------+------+--------+------+
+|    1 | love | female |   25 |
++------+------+--------+------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from student where snm like've%';
+Empty set (0.00 sec)
+
+MariaDB [test]> select * from student where snm like'_o%';
++------+------+--------+------+
+| sid  | snm  | gendar | age  |
++------+------+--------+------+
+|    1 | love | female |   25 |
++------+------+--------+------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * student where snm like'_o%'; or snm like'a%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'student where snm like'_o%'' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'or snm like'a%'' at line 1
+MariaDB [test]> select * from student where snm like'_o%'or snm like'_a%';
++------+---------+--------+------+
+| sid  | snm     | gendar | age  |
++------+---------+--------+------+
+|    1 | lakhbir | male   |   22 |
+|    1 | love    | female |   25 |
+|    2 | nav     | female |   30 |
++------+---------+--------+------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from student where age between 20 and 22;
++------+---------+--------+------+
+| sid  | snm     | gendar | age  |
++------+---------+--------+------+
+|    1 | lakhbir | male   |   22 |
++------+---------+--------+------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from student where age between 20 and 32;
++------+---------+--------+------+
+| sid  | snm     | gendar | age  |
++------+---------+--------+------+
+|    1 | lakhbir | male   |   22 |
+|    1 | love    | female |   25 |
+|    2 | nav     | female |   30 |
++------+---------+--------+------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from student where age in(20,30);
++------+------+--------+------+
+| sid  | snm  | gendar | age  |
++------+------+--------+------+
+|    2 | nav  | female |   30 |
++------+------+--------+------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from student where age in(22,30,25);
++------+---------+--------+------+
+| sid  | snm     | gendar | age  |
++------+---------+--------+------+
+|    1 | lakhbir | male   |   22 |
+|    1 | love    | female |   25 |
+|    2 | nav     | female |   30 |
++------+---------+--------+------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> desc student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| sid    | int(5)      | YES  |     | NULL    |       |
+| snm    | varchar(25) | YES  |     | NULL    |       |
+| gendar | varchar(10) | YES  |     | NULL    |       |
+| age    | int(3)      | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+MariaDB [test]> alter table student add marks int(5);
+Query OK, 0 rows affected (0.73 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> alter table student add city varchar(50) after gendar;
+Query OK, 0 rows affected (0.39 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> alter table student add city varchar(50) after gendar;
+ERROR 1060 (42S21): Duplicate column name 'city'
+MariaDB [test]> select sid as studentid from student;
++-----------+
+| studentid |
++-----------+
+|         1 |
+|         1 |
+|         2 |
++-----------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select sid as "studentid" from student;
++-----------+
+| studentid |
++-----------+
+|         1 |
+|         1 |
+|         2 |
++-----------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]>
