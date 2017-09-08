@@ -1,0 +1,580 @@
+
+Setting environment for using XAMPP for Windows.
+719506@203-IMAC16 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> showdatabases;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'showdatabases' at line 1
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+5 rows in set (0.00 sec)
+
+MariaDB [(none)]> use testdb;
+ERROR 1049 (42000): Unknown database 'testdb'
+MariaDB [(none)]> show tables;
+ERROR 1046 (3D000): No database selected
+MariaDB [(none)]> use mytestdb;
+ERROR 1049 (42000): Unknown database 'mytestdb'
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| student        |
+| t              |
++----------------+
+2 rows in set (0.03 sec)
+
+MariaDB [test]> select * from student;
++------+---------+--------+------+------+-------+
+| sid  | snm     | gendar | city | age  | marks |
++------+---------+--------+------+------+-------+
+|    1 | lakhbir | male   | NULL |   22 |  NULL |
+|    1 | love    | female | NULL |   25 |  NULL |
+|    2 | nav     | female | NULL |   30 |  NULL |
++------+---------+--------+------+------+-------+
+3 rows in set (0.05 sec)
+
+MariaDB [test]> update student set city='toronto'where sid=1;
+Query OK, 2 rows affected (0.14 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+MariaDB [test]> select * from student;
++------+---------+--------+---------+------+-------+
+| sid  | snm     | gendar | city    | age  | marks |
++------+---------+--------+---------+------+-------+
+|    1 | lakhbir | male   | toronto |   22 |  NULL |
+|    1 | love    | female | toronto |   25 |  NULL |
+|    2 | nav     | female | NULL    |   30 |  NULL |
++------+---------+--------+---------+------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> update student set sid=2 and gendar ='female';
+Query OK, 2 rows affected (0.09 sec)
+Rows matched: 3  Changed: 2  Warnings: 0
+
+MariaDB [test]> select * from student;
++------+---------+--------+---------+------+-------+
+| sid  | snm     | gendar | city    | age  | marks |
++------+---------+--------+---------+------+-------+
+|    0 | lakhbir | male   | toronto |   22 |  NULL |
+|    1 | love    | female | toronto |   25 |  NULL |
+|    1 | nav     | female | NULL    |   30 |  NULL |
++------+---------+--------+---------+------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> update student set city='new delhi',marks=300 where sid=1;
+Query OK, 2 rows affected (0.11 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+MariaDB [test]> select * from student;
++------+---------+--------+-----------+------+-------+
+| sid  | snm     | gendar | city      | age  | marks |
++------+---------+--------+-----------+------+-------+
+|    0 | lakhbir | male   | toronto   |   22 |  NULL |
+|    1 | love    | female | new delhi |   25 |   300 |
+|    1 | nav     | female | new delhi |   30 |   300 |
++------+---------+--------+-----------+------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> update student set city='punjab',marks=300 where sid=0;
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [test]> select * from student;
++------+---------+--------+-----------+------+-------+
+| sid  | snm     | gendar | city      | age  | marks |
++------+---------+--------+-----------+------+-------+
+|    0 | lakhbir | male   | punjab    |   22 |   300 |
+|    1 | love    | female | new delhi |   25 |   300 |
+|    1 | nav     | female | new delhi |   30 |   300 |
++------+---------+--------+-----------+------+-------+
+3 rows in set (0.02 sec)
+
+MariaDB [test]> update student set marks='100,city='new delhi' where sid=1;
+    '> select * from student;
+    '> select * from student;
+    '> select * from student;
+    '>
+    '> update student set sid=2 and gendar ='female'
+    '>
+    '> update student set marks='100,city='new delhi' where sid=1
+    -> update student set sid=2 and gendar ='female';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'new delhi' where sid=1;
+select * from student;
+select * from student;
+select * f' at line 1
+MariaDB [test]> delete from student where sid=1;
+Query OK, 2 rows affected (0.13 sec)
+
+MariaDB [test]> select * from student;
++------+---------+--------+--------+------+-------+
+| sid  | snm     | gendar | city   | age  | marks |
++------+---------+--------+--------+------+-------+
+|    0 | lakhbir | male   | punjab |   22 |   300 |
++------+---------+--------+--------+------+-------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select user();
++----------------+
+| user()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.02 sec)
+
+MariaDB [test]> select current_time();
++----------------+
+| current_time() |
++----------------+
+| 18:04:06       |
++----------------+
+1 row in set (0.03 sec)
+
+MariaDB [test]> select sysdate();
++---------------------+
+| sysdate()           |
++---------------------+
+| 2017-09-07 18:05:40 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select curtime();
++-----------+
+| curtime() |
++-----------+
+| 18:06:19  |
++-----------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select current_timestamp();
++---------------------+
+| current_timestamp() |
++---------------------+
+| 2017-09-07 18:07:17 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select avg(marks) from student;
++------------+
+| avg(marks) |
++------------+
+|   300.0000 |
++------------+
+1 row in set (0.06 sec)
+
+MariaDB [test]> select ,sysdate(), avg(marks) from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'sysdate(), avg(marks) from student' at line 1
+MariaDB [test]> select sysdate(), avg(marks) from student;
++---------------------+------------+
+| sysdate()           | avg(marks) |
++---------------------+------------+
+| 2017-09-07 18:12:19 |   300.0000 |
++---------------------+------------+
+1 row in set (0.08 sec)
+
+MariaDB [test]> select now(),sid,snm from student;
++---------------------+------+---------+
+| now()               | sid  | snm     |
++---------------------+------+---------+
+| 2017-09-07 18:13:09 |    0 | lakhbir |
++---------------------+------+---------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select concate(snm,city) from student;
+ERROR 1305 (42000): FUNCTION test.concate does not exist
+MariaDB [test]> select concate(snm,'living in' city) from student;
+ERROR 1584 (42000): Incorrect parameters in the call to stored function 'concate'
+MariaDB [test]> select CONCATE(snm,'living in' city) from student;
+ERROR 1584 (42000): Incorrect parameters in the call to stored function 'CONCATE'
+MariaDB [test]> select CONCATE(snm,'living in', city) from student;
+ERROR 1305 (42000): FUNCTION test.CONCATE does not exist
+MariaDB [test]> select CONCAT(snm,'living in', city) from student;
++-------------------------------+
+| CONCAT(snm,'living in', city) |
++-------------------------------+
+| lakhbirliving inpunjab        |
++-------------------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> mysql> SELECT FORMAT(12332.123456, 4);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'mysql> SELECT FORMAT(12332.123456, 4)' at line 1
+MariaDB [test]>         -> '12,332.1235'
+    -> mysql> SELECT FORMAT(12332.1,4);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> '12,332.1235'
+mysql> SELECT FORMAT(12332.1,4)' at line 1
+MariaDB [test]>         -> '12,332.1000'
+    -> mysql> SELECT FORMAT(12332.2,0);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> '12,332.1000'
+mysql> SELECT FORMAT(12332.2,0)' at line 1
+MariaDB [test]>         -> '12,332'
+    -> mysql> SELECT FORMAT(12332.2,2,'de_DE');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> '12,332'
+mysql> SELECT FORMAT(12332.2,2,'de_DE')' at line 1
+MariaDB [test]>         -> '12.332,20'
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    -> mysql> SELECT FORMAT(12332.2,2,'de_DE');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> '12.332,20'
+
+
+
+
+
+
+
+mysql> SELECT FORMAT(12332.2,2,'de_DE')' at line 1
+MariaDB [test]> mysql> SELECT FORMAT(12332.123456, 4);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'mysql> SELECT FORMAT(12332.123456, 4)' at line 1
+MariaDB [test]>         -> '12,332.1235'
+    -> mysql> SELECT FORMAT(12332.1,4);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> '12,332.1235'
+mysql> SELECT FORMAT(12332.1,4)' at line 1
+MariaDB [test]>         -> '12,332.1000'
+    -> mysql> SELECT FORMAT(12332.2,0);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> '12,332.1000'
+mysql> SELECT FORMAT(12332.2,0)' at line 1
+MariaDB [test]>         -> '12,332'
+    -> mysql> SELECT FORMAT(12332.2,2,'de_DE');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> '12,332'
+mysql> SELECT FORMAT(12332.2,2,'de_DE')' at line 1
+MariaDB [test]>         -> '12.332,20'
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> '12.332,20'' at line 1
+MariaDB [test]> mysql> SELECT FORMAT(12332.123456,'de_DE');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'mysql> SELECT FORMAT(12332.123456,'de_DE')' at line 1
+MariaDB [test]> mysql> SELECT FORMAT(12332.123456, 4);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'mysql> SELECT FORMAT(12332.123456, 4)' at line 1
+MariaDB [test]>         -> '12,332.1235'
+    -> mysql> SELECT FORMAT(12332.1,4);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> '12,332.1235'
+mysql> SELECT FORMAT(12332.1,4)' at line 1
+MariaDB [test]>         -> '12,332.1000'
+    -> mysql> SELECT FORMAT(12332.2,0);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> '12,332.1000'
+mysql> SELECT FORMAT(12332.2,0)' at line 1
+MariaDB [test]>         -> '12,332'
+    -> mysql> SELECT FORMAT(12332.2,2,'de_DE');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> '12,332'
+mysql> SELECT FORMAT(12332.2,2,'de_DE')' at line 1
+MariaDB [test]>         -> '12.332,20'
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    -> mysql> SELECT FORMAT(12332.123456,'de_DE');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> '12.332,20'
+
+
+
+
+
+
+
+mysql> SELECT FORMAT(12332.123456,'de_DE')' at line 1
+MariaDB [test]> mysql> SELECT FORMAT(12332.123456,'de_DE');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'mysql> SELECT FORMAT(12332.123456,'de_DE')' at line 1
+MariaDB [test]> SELECT FORMAT(12332.1,4);
++-------------------+
+| FORMAT(12332.1,4) |
++-------------------+
+| 12,332.1000       |
++-------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> show create table student\g
++---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                                                                                                                                                                      |
++---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| student | CREATE TABLE `student` (
+  `sid` int(5) DEFAULT NULL,
+  `snm` varchar(25) DEFAULT NULL,
+  `gendar` varchar(10) DEFAULT NULL,
+  `city` varchar(50) DEFAULT NULL,
+  `age` int(3) DEFAULT NULL,
+  `marks` int(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 |
++---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.03 sec)
+
+MariaDB [test]> create table name(code integer(3)primary key, name varchar(50) not null);
+Query OK, 0 rows affected (0.41 sec)
+
+MariaDB [test]> create table product(code integer(3) primary key,name varchar(50),price float(9,3),manufacturer integer(3)refferances manufacturer(code));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'manufacturer(code))' at line 1
+MariaDB [test]> create table product(code integer(3) primary key,name varchar(50),price float(9,3),manufacturer integer(3)referances manufacturer(code));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'manufacturer(code))' at line 1
+MariaDB [test]> create table product(code integer(3) primary key,name varchar(50),price float(9,3),manufacturer integer(3) referances manufacturer(code));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'manufacturer(code))' at line 1
+MariaDB [test]> create table product(code integer(3) primary key,name varchar(50),price float(9,3),manufacturer integer(3) referances manufacturer(code));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'manufacturer(code))' at line 1
+MariaDB [test]> CREATE TABLE Manufacturers (  Code INTEGER,  Name VARCHAR(255) NOT NULL,  PRIMARY KEY (Code)   );
+Query OK, 0 rows affected (0.27 sec)
+
+MariaDB [test]> CREATE TABLE Products (  Code INTEGER,  Name VARCHAR(255) NOT NULL ,  Price DECIMAL NOT NULL ,  Manufacturer INTEGER NOT NULL,  PRIMARY KEY (Code),  FOREIGN KEY (Manufacturer) REFERENCES Manufacturers(Code)) ;
+Query OK, 0 rows affected (0.41 sec)
+
+MariaDB [test]> INSERT INTO Manufacturers(Code,Name) VALUES(1,'Sony');INSERT INTO Manufacturers(Code,Name) VALUES(2,'Creative Labs');INSERT INTO Manufacturers(Code,Name) VALUES(3,'Hewlett-Packard');INSERT INTO Manufacturers(Code,Name) VALUES(4,'Iomega');INSERT INTO Manufacturers(Code,Name) VALUES(5,'Fujitsu');INSERT INTO Manufacturers(Code,Name) VALUES(6,'Winchester');INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(1,'Hard drive',240,5);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(2,'Memory',120,6);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(3,'ZIP drive',150,4);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(4,'Floppy disk',5,6);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(5,'Monitor',240,1);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(6,'DVD drive',180,2);
+Query OK, 1 row affected (0.06 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.06 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.02 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.02 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [test]> select name,price from products;
++-------------+-------+
+| name        | price |
++-------------+-------+
+| Hard drive  |   240 |
+| Memory      |   120 |
+| ZIP drive   |   150 |
+| Floppy disk |     5 |
+| Monitor     |   240 |
+| DVD drive   |   180 |
++-------------+-------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> select name from student where price=150;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+MariaDB [test]> select name of the products with price >=240;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'the products with price >=240' at line 1
+MariaDB [test]> select name of the products with price >=$240;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'the products with price >=$240' at line 1
+MariaDB [test]> select name of the products where price >=$240;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'the products where price >=$240' at line 1
+MariaDB [test]> select name of the products where price >=240;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'the products where price >=240' at line 1
+MariaDB [test]> select avg(price) from products;
++------------+
+| avg(price) |
++------------+
+|   155.8333 |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select sum(price)/count(price) from products;
++-------------------------+
+| sum(price)/count(price) |
++-------------------------+
+|                155.8333 |
++-------------------------+
+1 row in set (0.03 sec)
+
+MariaDB [test]> select sum(price)/min(price) from products;
++-----------------------+
+| sum(price)/min(price) |
++-----------------------+
+|              187.0000 |
++-----------------------+
+1 row in set (0.05 sec)
+
+MariaDB [test]> select sum(price)/max(price) from products;
++-----------------------+
+| sum(price)/max(price) |
++-----------------------+
+|                3.8958 |
++-----------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select avg(price)from products where manufacturer=2;
++------------+
+| avg(price) |
++------------+
+|   180.0000 |
++------------+
+1 row in set (0.06 sec)
+
+MariaDB [test]> select count(price) from products where price >=150;
++--------------+
+| count(price) |
++--------------+
+|            4 |
++--------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from products;
++------+-------------+-------+--------------+
+| Code | Name        | Price | Manufacturer |
++------+-------------+-------+--------------+
+|    1 | Hard drive  |   240 |            5 |
+|    2 | Memory      |   120 |            6 |
+|    3 | ZIP drive   |   150 |            4 |
+|    4 | Floppy disk |     5 |            6 |
+|    5 | Monitor     |   240 |            1 |
+|    6 | DVD drive   |   180 |            2 |
++------+-------------+-------+--------------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> select name from products order by name;
++-------------+
+| name        |
++-------------+
+| DVD drive   |
+| Floppy disk |
+| Hard drive  |
+| Memory      |
+| Monitor     |
+| ZIP drive   |
++-------------+
+6 rows in set (0.06 sec)
+
+MariaDB [test]> select name from products order by name desc;
++-------------+
+| name        |
++-------------+
+| ZIP drive   |
+| Monitor     |
+| Memory      |
+| Hard drive  |
+| Floppy disk |
+| DVD drive   |
++-------------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> select name from products order by name asc;
++-------------+
+| name        |
++-------------+
+| DVD drive   |
+| Floppy disk |
+| Hard drive  |
+| Memory      |
+| Monitor     |
+| ZIP drive   |
++-------------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> select name from products order by name, manufacturer desc;
++-------------+
+| name        |
++-------------+
+| DVD drive   |
+| Floppy disk |
+| Hard drive  |
+| Memory      |
+| Monitor     |
+| ZIP drive   |
++-------------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> select name from products order by  manufacturer desc,name;
++-------------+
+| name        |
++-------------+
+| Floppy disk |
+| Memory      |
+| Hard drive  |
+| ZIP drive   |
+| DVD drive   |
+| Monitor     |
++-------------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> select name from products where name like '%drive%';
++------------+
+| name       |
++------------+
+| Hard drive |
+| ZIP drive  |
+| DVD drive  |
++------------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from products where product set price=500 where name='hard drivr';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'set price=500 where name='hard drivr'' at line 1
+MariaDB [test]> select * from products where product set price=500 where name='hard drive';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'set price=500 where name='hard drive'' at line 1
+MariaDB [test]> update products set price=500 where name='hard drive';
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [test]> select * from products;
++------+-------------+-------+--------------+
+| Code | Name        | Price | Manufacturer |
++------+-------------+-------+--------------+
+|    1 | Hard drive  |   500 |            5 |
+|    2 | Memory      |   120 |            6 |
+|    3 | ZIP drive   |   150 |            4 |
+|    4 | Floppy disk |     5 |            6 |
+|    5 | Monitor     |   240 |            1 |
+|    6 | DVD drive   |   180 |            2 |
++------+-------------+-------+--------------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> delete from manufacturers where code=1;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`test`.`products`, CONSTRAINT `products_ibfk_1` FOREIGN KEY (`Manufacturer`) REFERENCES `manufacturers` (`Code`))
+MariaDB [test]> insert into manufacturers values(7,moxdroid labs inc.');
+    '> select * from products;
+    '> select * from products;
+    '> insert into manufacturers values(7,'moxdroid labs' inc.');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'labs inc.');
+select * from products;
+select * from products;
+insert into manufac' at line 1
+MariaDB [test]> insert into manufacturers values(7,'moxdroid labs inc.');
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [test]> select * from products;
++------+-------------+-------+--------------+
+| Code | Name        | Price | Manufacturer |
++------+-------------+-------+--------------+
+|    1 | Hard drive  |   500 |            5 |
+|    2 | Memory      |   120 |            6 |
+|    3 | ZIP drive   |   150 |            4 |
+|    4 | Floppy disk |     5 |            6 |
+|    5 | Monitor     |   240 |            1 |
+|    6 | DVD drive   |   180 |            2 |
++------+-------------+-------+--------------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]>
