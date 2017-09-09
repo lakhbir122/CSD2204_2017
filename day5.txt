@@ -1,0 +1,448 @@
+
+Setting environment for using XAMPP for Windows.
+719506@203-IMAC16 c:\xampp
+#  CREATE DATABASE menagerie;
+'CREATE' is not recognized as an internal or external command,
+operable program or batch file.
+
+719506@203-IMAC16 c:\xampp
+# USE menagerie
+'USE' is not recognized as an internal or external command,
+operable program or batch file.
+
+719506@203-IMAC16 c:\xampp
+# mysql> CREATE DATABASE menagerie;
+
+719506@203-IMAC16 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]>  CREATE DATABASE menagerie;
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [(none)]> USE menagerie
+Database changed
+MariaDB [menagerie]> CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20),species VARCHAR(20), sex CHAR(1), birth DATE, death DATE);
+Query OK, 0 rows affected (0.30 sec)
+
+MariaDB [menagerie]>  DESCRIBE pet;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| name    | varchar(20) | YES  |     | NULL    |       |
+| owner   | varchar(20) | YES  |     | NULL    |       |
+| species | varchar(20) | YES  |     | NULL    |       |
+| sex     | char(1)     | YES  |     | NULL    |       |
+| birth   | date        | YES  |     | NULL    |       |
+| death   | date        | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+6 rows in set (0.09 sec)
+
+MariaDB [menagerie]> select * from pet;
+Empty set (0.00 sec)
+
+MariaDB [menagerie]> LOAD DATA LOCAL INFILE '/Users/pritesh.patel/Desktop/pet.txt' INTO TABLE pet;
+ERROR 1148 (42000): The used command is not allowed with this MariaDB version
+MariaDB [menagerie]> mysql> LOAD DATA LOCAL INFILE '/Users/pritesh.patel/Desktop/pet.txt' INTO TABLE pet;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'mysql> LOAD DATA LOCAL INFILE '/Users/pritesh.patel/Desktop/pet.txt' INTO TABLE ' at line 1
+MariaDB [menagerie]> LOAD DATA LOCAL INFILE '/Users/pritesh.patel/Desktop/pet.txt' INTO TABLE pet;
+ERROR 1148 (42000): The used command is not allowed with this MariaDB version
+MariaDB [menagerie]> LOAD DATA  INFILE '/Users/pritesh.patel/Desktop/pet.txt' INTO TABLE pet;
+ERROR 29 (HY000): File 'C:\Users\pritesh.patel\Desktop\pet.txt' not found (Errcode: 2 "No such file or directory")
+MariaDB [menagerie]> LOAD DATA  INFILE '/Users/pritesh.patel/Desktop/pet.txt' INTO TABLE pet;
+ERROR 29 (HY000): File 'C:\Users\pritesh.patel\Desktop\pet.txt' not found (Errcode: 2 "No such file or directory")
+MariaDB [menagerie]> LOAD DATA  INFILE 'c:/users/721322/downloads/queries/queries/pet.txt'into table pet;
+ERROR 29 (HY000): File 'c:\users\721322\downloads\queries\queries\pet.txt' not found (Errcode: 2 "No such file or directory")
+MariaDB [menagerie]> LOAD DATA  INFILE 'c:/users/721322/downloads/queries/queries/pet.txt'into table pet;
+ERROR 29 (HY000): File 'c:\users\721322\downloads\queries\queries\pet.txt' not found (Errcode: 2 "No such file or directory")
+MariaDB [menagerie]> C:/Users/719506/Downloads/queries/Queries/pet.txt' into table pet;
+    '>
+    '> ;
+    '> ;
+    '> C:/Users/719506/Downloads/queries/Queries/pet.txt' into table pet;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'C:/Users/719506/Downloads/queries/Queries/pet.txt' into table pet;
+
+;
+;
+C:/Users' at line 1
+MariaDB [menagerie]> load data infile C:/Users/719506/Downloads/queries/Queries/pet.txt' into table pet;
+    '> load data infile 'C:/Users/719506/Downloads/queries/Queries/pet.txt' into table pet;
+    '> load data infile 'C:/Users/719506/Downloads/queries/queries/pet.txt' into table pet;
+    '> load data infile 'C:/Users/719506/Downloads/queries/queries/pet.txt' into table pet;
+    '> set @a=10;
+    '> load data infile C:/Users/719506/Downloads/queries/Queries/pet.txt' into table pet;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'C:/Users/719506/Downloads/queries/Queries/pet.txt' into table pet;
+load data inf' at line 1
+MariaDB [menagerie]> SELECT * FROM pet WHERE name REGEXP BINARY '^b';
+Empty set (0.06 sec)
+
+MariaDB [menagerie]>  SELECT * FROM pet WHERE name REGEXP 'fy$';
+Empty set (0.03 sec)
+
+MariaDB [menagerie]> load data infile C:/Users/719506/Downloads/queries/Queries/pet.txt' into table pet;
+    '> load data infile C:/Users/719506/Downloads/queries/Queries/pet.txt' into table pet;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'C:/Users/719506/Downloads/queries/Queries/pet.txt' into table pet;
+load data inf' at line 1
+MariaDB [menagerie]> use testdb;
+ERROR 1049 (42000): Unknown database 'testdb'
+MariaDB [menagerie]> use mytestdb;
+ERROR 1049 (42000): Unknown database 'mytestdb'
+MariaDB [menagerie]> show tables;
++---------------------+
+| Tables_in_menagerie |
++---------------------+
+| pet                 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [menagerie]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| menagerie          |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+6 rows in set (0.00 sec)
+
+MariaDB [menagerie]> use testdb;
+ERROR 1049 (42000): Unknown database 'testdb'
+MariaDB [menagerie]> use test;
+Database changed
+MariaDB [test]> select * from p,m;
+ERROR 1146 (42S02): Table 'test.p' doesn't exist
+MariaDB [test]> select * from prod,manu;
+ERROR 1146 (42S02): Table 'test.prod' doesn't exist
+MariaDB [test]> select * from products,manufacturers;
++------+-------------+-------+--------------+------+--------------------+
+| Code | Name        | Price | Manufacturer | Code | Name               |
++------+-------------+-------+--------------+------+--------------------+
+|    1 | Hard drive  |   500 |            5 |    1 | Sony               |
+|    2 | Memory      |   120 |            6 |    1 | Sony               |
+|    3 | ZIP drive   |   150 |            4 |    1 | Sony               |
+|    4 | Floppy disk |     5 |            6 |    1 | Sony               |
+|    5 | Monitor     |   240 |            1 |    1 | Sony               |
+|    6 | DVD drive   |   180 |            2 |    1 | Sony               |
+|    1 | Hard drive  |   500 |            5 |    2 | Creative Labs      |
+|    2 | Memory      |   120 |            6 |    2 | Creative Labs      |
+|    3 | ZIP drive   |   150 |            4 |    2 | Creative Labs      |
+|    4 | Floppy disk |     5 |            6 |    2 | Creative Labs      |
+|    5 | Monitor     |   240 |            1 |    2 | Creative Labs      |
+|    6 | DVD drive   |   180 |            2 |    2 | Creative Labs      |
+|    1 | Hard drive  |   500 |            5 |    3 | Hewlett-Packard    |
+|    2 | Memory      |   120 |            6 |    3 | Hewlett-Packard    |
+|    3 | ZIP drive   |   150 |            4 |    3 | Hewlett-Packard    |
+|    4 | Floppy disk |     5 |            6 |    3 | Hewlett-Packard    |
+|    5 | Monitor     |   240 |            1 |    3 | Hewlett-Packard    |
+|    6 | DVD drive   |   180 |            2 |    3 | Hewlett-Packard    |
+|    1 | Hard drive  |   500 |            5 |    4 | Iomega             |
+|    2 | Memory      |   120 |            6 |    4 | Iomega             |
+|    3 | ZIP drive   |   150 |            4 |    4 | Iomega             |
+|    4 | Floppy disk |     5 |            6 |    4 | Iomega             |
+|    5 | Monitor     |   240 |            1 |    4 | Iomega             |
+|    6 | DVD drive   |   180 |            2 |    4 | Iomega             |
+|    1 | Hard drive  |   500 |            5 |    5 | Fujitsu            |
+|    2 | Memory      |   120 |            6 |    5 | Fujitsu            |
+|    3 | ZIP drive   |   150 |            4 |    5 | Fujitsu            |
+|    4 | Floppy disk |     5 |            6 |    5 | Fujitsu            |
+|    5 | Monitor     |   240 |            1 |    5 | Fujitsu            |
+|    6 | DVD drive   |   180 |            2 |    5 | Fujitsu            |
+|    1 | Hard drive  |   500 |            5 |    6 | Winchester         |
+|    2 | Memory      |   120 |            6 |    6 | Winchester         |
+|    3 | ZIP drive   |   150 |            4 |    6 | Winchester         |
+|    4 | Floppy disk |     5 |            6 |    6 | Winchester         |
+|    5 | Monitor     |   240 |            1 |    6 | Winchester         |
+|    6 | DVD drive   |   180 |            2 |    6 | Winchester         |
+|    1 | Hard drive  |   500 |            5 |    7 | moxdroid labs inc. |
+|    2 | Memory      |   120 |            6 |    7 | moxdroid labs inc. |
+|    3 | ZIP drive   |   150 |            4 |    7 | moxdroid labs inc. |
+|    4 | Floppy disk |     5 |            6 |    7 | moxdroid labs inc. |
+|    5 | Monitor     |   240 |            1 |    7 | moxdroid labs inc. |
+|    6 | DVD drive   |   180 |            2 |    7 | moxdroid labs inc. |
++------+-------------+-------+--------------+------+--------------------+
+42 rows in set (0.16 sec)
+
+MariaDB [test]> select * from products,manufacturers;
++------+-------------+-------+--------------+------+--------------------+
+| Code | Name        | Price | Manufacturer | Code | Name               |
++------+-------------+-------+--------------+------+--------------------+
+|    1 | Hard drive  |   500 |            5 |    1 | Sony               |
+|    2 | Memory      |   120 |            6 |    1 | Sony               |
+|    3 | ZIP drive   |   150 |            4 |    1 | Sony               |
+|    4 | Floppy disk |     5 |            6 |    1 | Sony               |
+|    5 | Monitor     |   240 |            1 |    1 | Sony               |
+|    6 | DVD drive   |   180 |            2 |    1 | Sony               |
+|    1 | Hard drive  |   500 |            5 |    2 | Creative Labs      |
+|    2 | Memory      |   120 |            6 |    2 | Creative Labs      |
+|    3 | ZIP drive   |   150 |            4 |    2 | Creative Labs      |
+|    4 | Floppy disk |     5 |            6 |    2 | Creative Labs      |
+|    5 | Monitor     |   240 |            1 |    2 | Creative Labs      |
+|    6 | DVD drive   |   180 |            2 |    2 | Creative Labs      |
+|    1 | Hard drive  |   500 |            5 |    3 | Hewlett-Packard    |
+|    2 | Memory      |   120 |            6 |    3 | Hewlett-Packard    |
+|    3 | ZIP drive   |   150 |            4 |    3 | Hewlett-Packard    |
+|    4 | Floppy disk |     5 |            6 |    3 | Hewlett-Packard    |
+|    5 | Monitor     |   240 |            1 |    3 | Hewlett-Packard    |
+|    6 | DVD drive   |   180 |            2 |    3 | Hewlett-Packard    |
+|    1 | Hard drive  |   500 |            5 |    4 | Iomega             |
+|    2 | Memory      |   120 |            6 |    4 | Iomega             |
+|    3 | ZIP drive   |   150 |            4 |    4 | Iomega             |
+|    4 | Floppy disk |     5 |            6 |    4 | Iomega             |
+|    5 | Monitor     |   240 |            1 |    4 | Iomega             |
+|    6 | DVD drive   |   180 |            2 |    4 | Iomega             |
+|    1 | Hard drive  |   500 |            5 |    5 | Fujitsu            |
+|    2 | Memory      |   120 |            6 |    5 | Fujitsu            |
+|    3 | ZIP drive   |   150 |            4 |    5 | Fujitsu            |
+|    4 | Floppy disk |     5 |            6 |    5 | Fujitsu            |
+|    5 | Monitor     |   240 |            1 |    5 | Fujitsu            |
+|    6 | DVD drive   |   180 |            2 |    5 | Fujitsu            |
+|    1 | Hard drive  |   500 |            5 |    6 | Winchester         |
+|    2 | Memory      |   120 |            6 |    6 | Winchester         |
+|    3 | ZIP drive   |   150 |            4 |    6 | Winchester         |
+|    4 | Floppy disk |     5 |            6 |    6 | Winchester         |
+|    5 | Monitor     |   240 |            1 |    6 | Winchester         |
+|    6 | DVD drive   |   180 |            2 |    6 | Winchester         |
+|    1 | Hard drive  |   500 |            5 |    7 | moxdroid labs inc. |
+|    2 | Memory      |   120 |            6 |    7 | moxdroid labs inc. |
+|    3 | ZIP drive   |   150 |            4 |    7 | moxdroid labs inc. |
+|    4 | Floppy disk |     5 |            6 |    7 | moxdroid labs inc. |
+|    5 | Monitor     |   240 |            1 |    7 | moxdroid labs inc. |
+|    6 | DVD drive   |   180 |            2 |    7 | moxdroid labs inc. |
++------+-------------+-------+--------------+------+--------------------+
+42 rows in set (0.00 sec)
+
+MariaDB [test]> select m.code,products.code from products,manufacturers;
+ERROR 1054 (42S22): Unknown column 'm.code' in 'field list'
+MariaDB [test]> select m.code,products.code from products,manufacturers m;
++------+------+
+| code | code |
++------+------+
+|    1 |    5 |
+|    1 |    6 |
+|    1 |    3 |
+|    1 |    1 |
+|    1 |    2 |
+|    1 |    4 |
+|    2 |    5 |
+|    2 |    6 |
+|    2 |    3 |
+|    2 |    1 |
+|    2 |    2 |
+|    2 |    4 |
+|    3 |    5 |
+|    3 |    6 |
+|    3 |    3 |
+|    3 |    1 |
+|    3 |    2 |
+|    3 |    4 |
+|    4 |    5 |
+|    4 |    6 |
+|    4 |    3 |
+|    4 |    1 |
+|    4 |    2 |
+|    4 |    4 |
+|    5 |    5 |
+|    5 |    6 |
+|    5 |    3 |
+|    5 |    1 |
+|    5 |    2 |
+|    5 |    4 |
+|    6 |    5 |
+|    6 |    6 |
+|    6 |    3 |
+|    6 |    1 |
+|    6 |    2 |
+|    6 |    4 |
+|    7 |    5 |
+|    7 |    6 |
+|    7 |    3 |
+|    7 |    1 |
+|    7 |    2 |
+|    7 |    4 |
++------+------+
+42 rows in set (0.00 sec)
+
+MariaDB [test]> select * from products,manufacturers;
++------+-------------+-------+--------------+------+--------------------+
+| Code | Name        | Price | Manufacturer | Code | Name               |
++------+-------------+-------+--------------+------+--------------------+
+|    1 | Hard drive  |   500 |            5 |    1 | Sony               |
+|    2 | Memory      |   120 |            6 |    1 | Sony               |
+|    3 | ZIP drive   |   150 |            4 |    1 | Sony               |
+|    4 | Floppy disk |     5 |            6 |    1 | Sony               |
+|    5 | Monitor     |   240 |            1 |    1 | Sony               |
+|    6 | DVD drive   |   180 |            2 |    1 | Sony               |
+|    1 | Hard drive  |   500 |            5 |    2 | Creative Labs      |
+|    2 | Memory      |   120 |            6 |    2 | Creative Labs      |
+|    3 | ZIP drive   |   150 |            4 |    2 | Creative Labs      |
+|    4 | Floppy disk |     5 |            6 |    2 | Creative Labs      |
+|    5 | Monitor     |   240 |            1 |    2 | Creative Labs      |
+|    6 | DVD drive   |   180 |            2 |    2 | Creative Labs      |
+|    1 | Hard drive  |   500 |            5 |    3 | Hewlett-Packard    |
+|    2 | Memory      |   120 |            6 |    3 | Hewlett-Packard    |
+|    3 | ZIP drive   |   150 |            4 |    3 | Hewlett-Packard    |
+|    4 | Floppy disk |     5 |            6 |    3 | Hewlett-Packard    |
+|    5 | Monitor     |   240 |            1 |    3 | Hewlett-Packard    |
+|    6 | DVD drive   |   180 |            2 |    3 | Hewlett-Packard    |
+|    1 | Hard drive  |   500 |            5 |    4 | Iomega             |
+|    2 | Memory      |   120 |            6 |    4 | Iomega             |
+|    3 | ZIP drive   |   150 |            4 |    4 | Iomega             |
+|    4 | Floppy disk |     5 |            6 |    4 | Iomega             |
+|    5 | Monitor     |   240 |            1 |    4 | Iomega             |
+|    6 | DVD drive   |   180 |            2 |    4 | Iomega             |
+|    1 | Hard drive  |   500 |            5 |    5 | Fujitsu            |
+|    2 | Memory      |   120 |            6 |    5 | Fujitsu            |
+|    3 | ZIP drive   |   150 |            4 |    5 | Fujitsu            |
+|    4 | Floppy disk |     5 |            6 |    5 | Fujitsu            |
+|    5 | Monitor     |   240 |            1 |    5 | Fujitsu            |
+|    6 | DVD drive   |   180 |            2 |    5 | Fujitsu            |
+|    1 | Hard drive  |   500 |            5 |    6 | Winchester         |
+|    2 | Memory      |   120 |            6 |    6 | Winchester         |
+|    3 | ZIP drive   |   150 |            4 |    6 | Winchester         |
+|    4 | Floppy disk |     5 |            6 |    6 | Winchester         |
+|    5 | Monitor     |   240 |            1 |    6 | Winchester         |
+|    6 | DVD drive   |   180 |            2 |    6 | Winchester         |
+|    1 | Hard drive  |   500 |            5 |    7 | moxdroid labs inc. |
+|    2 | Memory      |   120 |            6 |    7 | moxdroid labs inc. |
+|    3 | ZIP drive   |   150 |            4 |    7 | moxdroid labs inc. |
+|    4 | Floppy disk |     5 |            6 |    7 | moxdroid labs inc. |
+|    5 | Monitor     |   240 |            1 |    7 | moxdroid labs inc. |
+|    6 | DVD drive   |   180 |            2 |    7 | moxdroid labs inc. |
++------+-------------+-------+--------------+------+--------------------+
+42 rows in set (0.00 sec)
+
+MariaDB [test]> select * from products p,manufacturers m where m.code=p.code;
++------+-------------+-------+--------------+------+-----------------+
+| Code | Name        | Price | Manufacturer | Code | Name            |
++------+-------------+-------+--------------+------+-----------------+
+|    1 | Hard drive  |   500 |            5 |    1 | Sony            |
+|    2 | Memory      |   120 |            6 |    2 | Creative Labs   |
+|    3 | ZIP drive   |   150 |            4 |    3 | Hewlett-Packard |
+|    4 | Floppy disk |     5 |            6 |    4 | Iomega          |
+|    5 | Monitor     |   240 |            1 |    5 | Fujitsu         |
+|    6 | DVD drive   |   180 |            2 |    6 | Winchester      |
++------+-------------+-------+--------------+------+-----------------+
+6 rows in set (0.05 sec)
+
+MariaDB [test]> select * from products p,manufacturers m where m.code=p.manufacturer;
++------+-------------+-------+--------------+------+---------------+
+| Code | Name        | Price | Manufacturer | Code | Name          |
++------+-------------+-------+--------------+------+---------------+
+|    1 | Hard drive  |   500 |            5 |    5 | Fujitsu       |
+|    2 | Memory      |   120 |            6 |    6 | Winchester    |
+|    3 | ZIP drive   |   150 |            4 |    4 | Iomega        |
+|    4 | Floppy disk |     5 |            6 |    6 | Winchester    |
+|    5 | Monitor     |   240 |            1 |    1 | Sony          |
+|    6 | DVD drive   |   180 |            2 |    2 | Creative Labs |
++------+-------------+-------+--------------+------+---------------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> select * from manufacturers;
++------+--------------------+
+| Code | Name               |
++------+--------------------+
+|    1 | Sony               |
+|    2 | Creative Labs      |
+|    3 | Hewlett-Packard    |
+|    4 | Iomega             |
+|    5 | Fujitsu            |
+|    6 | Winchester         |
+|    7 | moxdroid labs inc. |
++------+--------------------+
+7 rows in set (0.00 sec)
+
+MariaDB [test]> insert into manufacturers values(7,'lambton');
+ERROR 1062 (23000): Duplicate entry '7' for key 'PRIMARY'
+MariaDB [test]> insert into manufacturers values(1,'lambton');
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+MariaDB [test]> select * from products p,manufacturers m where m.code=p.manufacturer;
++------+-------------+-------+--------------+------+---------------+
+| Code | Name        | Price | Manufacturer | Code | Name          |
++------+-------------+-------+--------------+------+---------------+
+|    1 | Hard drive  |   500 |            5 |    5 | Fujitsu       |
+|    2 | Memory      |   120 |            6 |    6 | Winchester    |
+|    3 | ZIP drive   |   150 |            4 |    4 | Iomega        |
+|    4 | Floppy disk |     5 |            6 |    6 | Winchester    |
+|    5 | Monitor     |   240 |            1 |    1 | Sony          |
+|    6 | DVD drive   |   180 |            2 |    2 | Creative Labs |
++------+-------------+-------+--------------+------+---------------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> select * from manufacturers m join products p on m.code=p.manufacturer;
++------+---------------+------+-------------+-------+--------------+
+| Code | Name          | Code | Name        | Price | Manufacturer |
++------+---------------+------+-------------+-------+--------------+
+|    5 | Fujitsu       |    1 | Hard drive  |   500 |            5 |
+|    6 | Winchester    |    2 | Memory      |   120 |            6 |
+|    4 | Iomega        |    3 | ZIP drive   |   150 |            4 |
+|    6 | Winchester    |    4 | Floppy disk |     5 |            6 |
+|    1 | Sony          |    5 | Monitor     |   240 |            1 |
+|    2 | Creative Labs |    6 | DVD drive   |   180 |            2 |
++------+---------------+------+-------------+-------+--------------+
+6 rows in set (0.03 sec)
+
+MariaDB [test]> select name,price manufacturers from products;
++-------------+---------------+
+| name        | manufacturers |
++-------------+---------------+
+| Hard drive  |           500 |
+| Memory      |           120 |
+| ZIP drive   |           150 |
+| Floppy disk |             5 |
+| Monitor     |           240 |
+| DVD drive   |           180 |
++-------------+---------------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> SELECT * FROM manufacturers m LEFT OUTER JOIN products p ON m.code = p.manufacturer;
++------+--------------------+------+-------------+-------+--------------+
+| Code | Name               | Code | Name        | Price | Manufacturer |
++------+--------------------+------+-------------+-------+--------------+
+|    1 | Sony               |    5 | Monitor     |   240 |            1 |
+|    2 | Creative Labs      |    6 | DVD drive   |   180 |            2 |
+|    3 | Hewlett-Packard    | NULL | NULL        |  NULL |         NULL |
+|    4 | Iomega             |    3 | ZIP drive   |   150 |            4 |
+|    5 | Fujitsu            |    1 | Hard drive  |   500 |            5 |
+|    6 | Winchester         |    2 | Memory      |   120 |            6 |
+|    6 | Winchester         |    4 | Floppy disk |     5 |            6 |
+|    7 | moxdroid labs inc. | NULL | NULL        |  NULL |         NULL |
++------+--------------------+------+-------------+-------+--------------+
+8 rows in set (0.00 sec)
+
+MariaDB [test]> drop table products;
+Query OK, 0 rows affected (0.25 sec)
+
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| manufacturers  |
+| name           |
+| student        |
+| t              |
++----------------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> drop table manufacturers;
+Query OK, 0 rows affected (0.20 sec)
+
+MariaDB [test]> delete from manufacturers where code =7;
+ERROR 1146 (42S02): Table 'test.manufacturers' doesn't exist
+MariaDB [test]> FOREIGN KEY (Manufacturer) REFERENCES Manufacturers(Code) ON DELETE SET NULL)
+    -> FOREIGN KEY (Manufacturer) REFERENCES Manufacturers(Code) ON DELETE SET NULL);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FOREIGN KEY (Manufacturer) REFERENCES Manufacturers(Code) ON DELETE SET NULL)
+FO' at line 1
+MariaDB [test]>   CREATE TABLE Products (  Code INTEGER,  Name VARCHAR(255) NOT NULL ,  Price DECIMAL NOT NULL ,  Manufacturer INTEGER,  PRIMARY KEY (Code),  FOREIGN KEY (Manufacturer) REFERENCES Manufacturers(Code) ON DELETE SET NULL)
+    -> ;
+ERROR 1005 (HY000): Can't create table `test`.`products` (errno: 150 "Foreign key constraint is incorrectly formed")
+MariaDB [test]>
