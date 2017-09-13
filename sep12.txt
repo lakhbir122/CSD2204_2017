@@ -1,0 +1,111 @@
+
+Setting environment for using XAMPP for Windows.
+719506@203-IMAC16 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| c0719506           |
+| co719506           |
+| information_schema |
+| menagerie          |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| manufacturers  |
+| name           |
+| products       |
+| student        |
+| t              |
++----------------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select * from products;
++------+-------------+-------+--------------+
+| Code | Name        | Price | Manufacturer |
++------+-------------+-------+--------------+
+|    1 | Hard drive  |   240 |            5 |
+|    2 | Memory      |   120 |            6 |
+|    3 | ZIP drive   |   150 |            4 |
+|    4 | Floppy disk |     5 |            6 |
+|    5 | Monitor     |   240 |            1 |
+|    6 | DVD drive   |   180 |            2 |
++------+-------------+-------+--------------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> select * from manufacturers;
++------+-----------------+
+| Code | Name            |
++------+-----------------+
+|    1 | Sony            |
+|    2 | Creative Labs   |
+|    3 | Hewlett-Packard |
+|    4 | Iomega          |
+|    5 | Fujitsu         |
+|    6 | Winchester      |
++------+-----------------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> select name from products;select name from manufacturers;
++-------------+
+| name        |
++-------------+
+| Hard drive  |
+| Memory      |
+| ZIP drive   |
+| Floppy disk |
+| Monitor     |
+| DVD drive   |
++-------------+
+6 rows in set (0.00 sec)
+
++-----------------+
+| name            |
++-----------------+
+| Sony            |
+| Creative Labs   |
+| Hewlett-Packard |
+| Iomega          |
+| Fujitsu         |
+| Winchester      |
++-----------------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> select manufacturer from products where price > 100 group by manufacturer;
++--------------+
+| manufacturer |
++--------------+
+|            1 |
+|            2 |
+|            4 |
+|            5 |
+|            6 |
++--------------+
+5 rows in set (0.00 sec)
+
+MariaDB [test]> select name from manufacturer where code in(select manufacturers from products where price > 200);
+ERROR 1146 (42S02): Table 'test.manufacturer' doesn't exist
+MariaDB [test]> select name from manufacturer where code in(select manufacturer from products where price > 200);
+ERROR 1146 (42S02): Table 'test.manufacturer' doesn't exist
+MariaDB [test]>
