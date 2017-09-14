@@ -1,0 +1,497 @@
+
+Setting environment for using XAMPP for Windows.
+719506@203-IMAC16 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| c0719506           |
+| co719506           |
+| information_schema |
+| menagerie          |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+9 rows in set (0.11 sec)
+
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| manufacturers  |
+| name           |
+| pieces         |
+| products       |
+| provider       |
+| providers      |
+| student        |
+| t              |
++----------------+
+8 rows in set (0.01 sec)
+
+MariaDB [test]> select * from provider;
+Empty set (0.06 sec)
+
+MariaDB [test]> select * from products;
++------+-------------+-------+--------------+
+| Code | Name        | Price | Manufacturer |
++------+-------------+-------+--------------+
+|    1 | Hard drive  |   240 |            5 |
+|    2 | Memory      |   120 |            6 |
+|    3 | ZIP drive   |   150 |            4 |
+|    4 | Floppy disk |     5 |            6 |
+|    5 | Monitor     |   240 |            1 |
+|    6 | DVD drive   |   180 |            2 |
++------+-------------+-------+--------------+
+6 rows in set (0.23 sec)
+
+MariaDB [test]> Create Table Pieces          (          Code int(5) Not Null Primary Key,          Name varchar(50)        );
+ERROR 1050 (42S01): Table 'pieces' already exists
+MariaDB [test]> Create Table Provides          (          Code int(5) Auto_Increment,          Piece int(5) ,          Provider varchar(5),          Price decimal(10,2) Check(Price>10),      Primary Key (Code,Piece,Provider),          Foreign Key (Piece) REFERENCES Pieces(Code),          Foreign Key (Provider) REFERENCES Providers(Code)          );
+ERROR 1005 (HY000): Can't create table `test`.`provides` (errno: 150 "Foreign key constraint is incorrectly formed")
+MariaDB [test]> Create Table Pieces          (          Code int(5) Not Null Primary Key,          Name varchar(50)        );        Create Table Providers          (          Code varchar(5) Not Null Primary Key,          Name varchar(50)          );                   Create Table Provides          (          Code int(5) Auto_Increment,          Piece int(5) ,          Provider varchar(5),          Price decimal(10,2) Check(Price>10),      Primary Key (Code,Piece,Provider),          Foreign Key (Piece) REFERENCES Pieces(Code),          Foreign Key (Provider) REFERENCES Providers(Code)          );
+ERROR 1050 (42S01): Table 'pieces' already exists
+ERROR 1050 (42S01): Table 'providers' already exists
+ERROR 1005 (HY000): Can't create table `test`.`provides` (errno: 150 "Foreign key constraint is incorrectly formed")
+MariaDB [test]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| c0719506           |
+| co719506           |
+| information_schema |
+| menagerie          |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [test]> create database test1;
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [test]> use test1;
+Database changed
+MariaDB [test1]> Create Table Pieces          (          Code int(5) Not Null Primary Key,          Name varchar(50)        );        Create Table Providers          (          Code varchar(5) Not Null Primary Key,          Name varchar(50)          );                   Create Table Provides          (          Code int(5) Auto_Increment,          Piece int(5) ,          Provider varchar(5),          Price decimal(10,2) Check(Price>10),      Primary Key (Code,Piece,Provider),          Foreign Key (Piece) REFERENCES Pieces(Code),          Foreign Key (Provider) REFERENCES Providers(Code)          );
+Query OK, 0 rows affected (0.25 sec)
+
+Query OK, 0 rows affected (0.19 sec)
+
+Query OK, 0 rows affected (0.44 sec)
+
+MariaDB [test1]> select * from pieces;
+Empty set (0.00 sec)
+
+MariaDB [test1]> select name from pieces;
+Empty set (0.00 sec)
+
+MariaDB [test1]> select name from providers;
+Empty set (0.00 sec)
+
+MariaDB [test1]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| c0719506           |
+| co719506           |
+| information_schema |
+| menagerie          |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| test               |
+| test1              |
++--------------------+
+10 rows in set (0.00 sec)
+
+MariaDB [test1]> use test;
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| manufacturers  |
+| name           |
+| pieces         |
+| products       |
+| provider       |
+| providers      |
+| student        |
+| t              |
++----------------+
+8 rows in set (0.00 sec)
+
+MariaDB [test]> select * from pieces;
+Empty set (0.01 sec)
+
+MariaDB [test]> select name from pieces;
+Empty set (0.00 sec)
+
+MariaDB [test]> select * from providers;
+Empty set (0.05 sec)
+
+MariaDB [test]> select name from providers;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+MariaDB [test]> select name from provider;
+Empty set (0.00 sec)
+
+MariaDB [test]> INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');INSERT INTO Providers(Code, Name) VALUES('TNBC','Skellington Supplies');INSERT INTO Pieces(Code, Name) VALUES(1,'Sprocket');INSERT INTO Pieces(Code, Name) VALUES(2,'Screw');INSERT INTO Pieces(Code, Name) VALUES(3,'Nut');INSERT INTO Pieces(Code, Name) VALUES(4,'Bolt');INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'HAL',10);INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'HAL',20);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'TNBC',14);INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'RBT',50);INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'TNBC',45);INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'HAL',5);INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'RBT',7);
+ERROR 1054 (42S22): Unknown column 'Code' in 'field list'
+ERROR 1054 (42S22): Unknown column 'Code' in 'field list'
+ERROR 1054 (42S22): Unknown column 'Code' in 'field list'
+Query OK, 1 row affected (0.08 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.06 sec)
+
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+MariaDB [test]> select * from pieces;
++------+----------+
+| code | name     |
++------+----------+
+|    1 | Sprocket |
+|    2 | Screw    |
+|    3 | Nut      |
+|    4 | Bolt     |
++------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select name from pieces;
++----------+
+| name     |
++----------+
+| Sprocket |
+| Screw    |
+| Nut      |
+| Bolt     |
++----------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select * from providers;
+Empty set (0.00 sec)
+
+MariaDB [test]> create table provider(code varchar(5) not null primary key,name varchar(50);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [test]> create table providers(code varchar(5) not null primary key,name varchar(50);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [test]> Create Table Providers          (          Code varchar(5) Not Null Primary Key,          Name varchar(50)          );
+ERROR 1050 (42S01): Table 'providers' already exists
+MariaDB [test]> select * from providers;
+Empty set (0.00 sec)
+
+MariaDB [test]> select name from providers;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+MariaDB [test]> INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');INSERT INTO Providers(Code, Name) VALUES('TNBC','Skellington Supplies'
+ERROR 1054 (42S22): Unknown column 'Code' in 'field list'
+ERROR 1054 (42S22): Unknown column 'Code' in 'field list'
+    -> select a.Name, max(a.price), b.Namefrom Manufacturers b join Products a on a.Manufacturer = b.codegroup by b.name;SELECT Products.Name, MAX(Price), Manufacturers.Name FROM Products, Manufacturers WHERE Manufacturer = Manufacturers.Code GROUP BY Manufacturers.Name;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'select a.Name, max(a.price), b.Namefrom Manufacturers b join Products a on a.Man' at line 2
++------------+------------+---------------+
+| Name       | MAX(Price) | Name          |
++------------+------------+---------------+
+| DVD drive  |        180 | Creative Labs |
+| Hard drive |        240 | Fujitsu       |
+| ZIP drive  |        150 | Iomega        |
+| Monitor    |        240 | Sony          |
+| Memory     |        120 | Winchester    |
++------------+------------+---------------+
+5 rows in set (0.08 sec)
+
+MariaDB [test]> INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');INSERT INTO Providers(Code, Name) VALUES('TNBC','Skellington Supplies');
+ERROR 1054 (42S22): Unknown column 'Code' in 'field list'
+ERROR 1054 (42S22): Unknown column 'Code' in 'field list'
+ERROR 1054 (42S22): Unknown column 'Code' in 'field list'
+MariaDB [test]> select a.Name, max(a.price), b.Namefrom Manufacturers b join Products a on a.Manufacturer = b.codegroup by b.name;SELECT Products.Name, MAX(Price), Manufacturers.Name FROM Products, Manufacturers WHERE Manufacturer = Manufacturers.Code GROUP BY Manufacturers.Name;  [8:46]   INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');INSERT INTO Providers(Code, Name) VALUES('TNBC','Skellington Supplies');INSERT INTO Pieces(Code, Name) VALUES(1,'Sprocket');INSERT INTO Pieces(Code, Name) VALUES(2,'Screw');INSERT INTO Pieces(Code, Name) VALUES(3,'Nut');INSERT INTO Pieces(Code, Name) VALUES(4,'Bolt');INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'HAL',10);INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'HAL',20);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'TNBC',14);INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'RBT',50);INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'TNBC',45);INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'HAL',5);INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'RBT',7);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'b join Products a on a.Manufacturer = b.codegroup by b.name' at line 1
++------------+------------+---------------+
+| Name       | MAX(Price) | Name          |
++------------+------------+---------------+
+| DVD drive  |        180 | Creative Labs |
+| Hard drive |        240 | Fujitsu       |
+| ZIP drive  |        150 | Iomega        |
+| Monitor    |        240 | Sony          |
+| Memory     |        120 | Winchester    |
++------------+------------+---------------+
+5 rows in set (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '[8:46]   INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises')' at line 1
+ERROR 1054 (42S22): Unknown column 'Code' in 'field list'
+ERROR 1054 (42S22): Unknown column 'Code' in 'field list'
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '2' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '3' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '4' for key 'PRIMARY'
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+ERROR 1146 (42S02): Table 'test.provides' doesn't exist
+MariaDB [test]> insert into providers(code,name)values('hal',clark');
+    '> ;
+    '> ';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '');
+;
+'' at line 1
+MariaDB [test]> select * from providers;
+Empty set (0.00 sec)
+
+MariaDB [test]> INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');
+ERROR 1054 (42S22): Unknown column 'Code' in 'field list'
+MariaDB [test]> INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');
+ERROR 1054 (42S22): Unknown column 'Code' in 'field list'
+MariaDB [test]> INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');
+ERROR 1054 (42S22): Unknown column 'Code' in 'field list'
+MariaDB [test]> drop table providers;
+Query OK, 0 rows affected (0.30 sec)
+
+MariaDB [test]> CREATE TABLE Providers(    Code VARCHAR(50) PRIMARY key NOT NULL,    Name VARCHAR(50) NOT NULL);
+Query OK, 0 rows affected (0.30 sec)
+
+MariaDB [test]> select * from providers;
+Empty set (0.00 sec)
+
+MariaDB [test]> INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');INSERT INTO Providers(Code, Name) VALUES('TNBC','Skellington Supplies');
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.06 sec)
+
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [test]> select name from providers;
++----------------------+
+| name                 |
++----------------------+
+| Clarke Enterprises   |
+| Susan Calvin Corp.   |
+| Skellington Supplies |
++----------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> CREATE TABLE Providers(    Code VARCHAR(50) PRIMARY key NOT NULL,    Name VARCHAR(50) NOT NULL);CREATE TABLE Provides(    Code Integer(10)  AUTO_INCREMENT,    Piece Integer(10)  References Pieces(Code),    Provider VARCHAR(50)  References Providers(Code),    Price Double(10,2) CHECK(Price >10),    PRIMARY KEY(Code,Piece,Provider));
+ERROR 1050 (42S01): Table 'providers' already exists
+Query OK, 0 rows affected (0.28 sec)
+
+MariaDB [test]> INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'HAL',10);INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'HAL',20);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'TNBC',14);INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'RBT',50);INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'TNBC',45);INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'HAL',5);INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'RBT',7);
+Query OK, 1 row affected (0.09 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.06 sec)
+
+Query OK, 1 row affected (0.06 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [test]> select * from provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     1 | HAL      | 10.00 |
+|    2 |     1 | RBT      | 15.00 |
+|    3 |     2 | HAL      | 20.00 |
+|    4 |     2 | RBT      | 15.00 |
+|    5 |     2 | TNBC     | 14.00 |
+|    6 |     3 | RBT      | 50.00 |
+|    7 |     3 | TNBC     | 45.00 |
+|    8 |     4 | HAL      |  5.00 |
+|    9 |     4 | RBT      |  7.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [test]> select name from pieces;
++----------+
+| name     |
++----------+
+| Sprocket |
+| Screw    |
+| Nut      |
+| Bolt     |
++----------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select providers data;
+ERROR 1054 (42S22): Unknown column 'providers' in 'field list'
+MariaDB [test]> select * providers data;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'providers data' at line 1
+MariaDB [test]> select * providers;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'providers' at line 1
+MariaDB [test]> select * from providers;
++------+----------------------+
+| Code | Name                 |
++------+----------------------+
+| HAL  | Clarke Enterprises   |
+| RBT  | Susan Calvin Corp.   |
+| TNBC | Skellington Supplies |
++------+----------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select avg price(pieces);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(pieces)' at line 1
+MariaDB [test]> select avg(price) from pieces;
+ERROR 1054 (42S22): Unknown column 'price' in 'field list'
+MariaDB [test]> select piece,avg(price);
+ERROR 1054 (42S22): Unknown column 'piece' in 'field list'
+MariaDB [test]> select piece,avg(price) from provides;
++-------+------------+
+| piece | avg(price) |
++-------+------------+
+|     1 |  20.111111 |
++-------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from providers limit1;
++------+----------------------+
+| Code | Name                 |
++------+----------------------+
+| HAL  | Clarke Enterprises   |
+| RBT  | Susan Calvin Corp.   |
+| TNBC | Skellington Supplies |
++------+----------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from pieces where code=
+    -> ';
+    '> ;
+    '> ';
+Empty set (0.00 sec)
+
+MariaDB [test]> SELECT Name  FROM Pieces WHERE Code IN   (SELECT Piece FROM Provides WHERE Provider = 'HAL');
++----------+
+| Name     |
++----------+
+| Sprocket |
+| Screw    |
+| Bolt     |
++----------+
+3 rows in set (0.03 sec)
+
+MariaDB [test]> Bye
+
+719506@203-IMAC16 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| c0719506           |
+| co719506           |
+| information_schema |
+| menagerie          |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| test               |
+| test1              |
++--------------------+
+10 rows in set (0.00 sec)
+
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| manufacturers  |
+| name           |
+| pieces         |
+| products       |
+| provider       |
+| providers      |
+| provides       |
+| student        |
+| t              |
++----------------+
+9 rows in set (0.00 sec)
+
+MariaDB [test]> select * from pieces;
++------+----------+
+| code | name     |
++------+----------+
+|    1 | Sprocket |
+|    2 | Screw    |
+|    3 | Nut      |
+|    4 | Bolt     |
++------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select * from providers where limit=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'limit=1' at line 1
+MariaDB [test]> select * from providers  limit=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '=1' at line 1
+MariaDB [test]> select * from providers;
++------+----------------------+
+| Code | Name                 |
++------+----------------------+
+| HAL  | Clarke Enterprises   |
+| RBT  | Susan Calvin Corp.   |
+| TNBC | Skellington Supplies |
++------+----------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> select * from providers limit=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '=1' at line 1
+MariaDB [test]> select piece,avg(price) from provides;
++-------+------------+
+| piece | avg(price) |
++-------+------------+
+|     1 |  20.111111 |
++-------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> select * from providers limit=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '=1' at line 1
+MariaDB [test]> Bye
+
+719506@203-IMAC16 c:\xampp
+#
