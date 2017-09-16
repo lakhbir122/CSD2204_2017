@@ -1,0 +1,688 @@
+
+Setting environment for using XAMPP for Windows.
+719506@203-IMAC16 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show tables;
+ERROR 1046 (3D000): No database selected
+MariaDB [(none)]> use test;
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| manufacturers  |
+| name           |
+| pieces         |
+| products       |
+| provider       |
+| providers      |
+| provides       |
+| student        |
+| t              |
++----------------+
+9 rows in set (0.00 sec)
+
+MariaDB [test]> CREATE TABLE Employee (
+    ->   EmployeeID INTEGER PRIMARY KEY NOT NULL,
+    ->   Name TEXT NOT NULL,
+    ->   Position TEXT NOT NULL,
+    ->   Salary REAL NOT NULL,
+    ->   Remarks TEXT
+    -> );
+Query OK, 0 rows affected (0.34 sec)
+
+MariaDB [test]>
+MariaDB [test]> CREATE TABLE Planet (
+    ->   PlanetID INTEGER PRIMARY KEY NOT NULL,
+    ->   Name TEXT NOT NULL,
+    ->   Coordinates REAL NOT NULL
+    -> );
+Query OK, 0 rows affected (0.23 sec)
+
+MariaDB [test]>
+MariaDB [test]> CREATE TABLE Shipment (
+    ->   ShipmentID INTEGER PRIMARY KEY NOT NULL,
+    ->   Date TEXT,
+    ->   Manager INTEGER NOT NULL
+    ->     CONSTRAINT fk_Employee_EmployeeID REFERENCES Employee(EmployeeID),
+    ->   Planet INTEGER NOT NULL
+    ->     CONSTRAINT fk_Planet_PlanetID REFERENCES Planet(PlanetID)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'CONSTRAINT fk_Employee_EmployeeID REFERENCES Employee(EmployeeID),
+  Planet INTE' at line 5
+MariaDB [test]>
+MariaDB [test]> CREATE TABLE Has_Clearance (
+    ->   Employee INTEGER NOT NULL
+    ->     CONSTRAINT fk_Employee_EmployeeID REFERENCES Employee(EmployeeID),
+    ->   Planet INTEGER NOT NULL
+    ->     CONSTRAINT fk_Planet_PlanetID REFERENCES Planet(PlanetID),
+    ->   Level INTEGER NOT NULL,
+    ->   PRIMARY KEY(Employee, Planet)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'CONSTRAINT fk_Employee_EmployeeID REFERENCES Employee(EmployeeID),
+  Planet INTE' at line 3
+MariaDB [test]>
+MariaDB [test]> CREATE TABLE Client (
+    ->   AccountNumber INTEGER PRIMARY KEY NOT NULL,
+    ->   Name TEXT NOT NULL
+    -> );
+Query OK, 0 rows affected (0.30 sec)
+
+MariaDB [test]>
+MariaDB [test]> CREATE TABLE Package (
+    ->   Shipment INTEGER NOT NULL
+    ->     CONSTRAINT fk_Shipment_ShipmentID REFERENCES Shipment(ShipmentID),
+    ->   PackageNumber INTEGER NOT NULL,
+    ->   Contents TEXT NOT NULL,
+    ->   Weight REAL NOT NULL,
+    ->   Sender INTEGER NOT NULL
+    ->     CONSTRAINT fk_Client_AccountNumber REFERENCES Client(AccountNumber),
+    ->   Recipient INTEGER NOT NULL
+    ->     CONSTRAINT fk_Client_AccountNumber REFERENCES Client(AccountNumber),
+    ->   PRIMARY KEY(Shipment, PackageNumber)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'CONSTRAINT fk_Shipment_ShipmentID REFERENCES Shipment(ShipmentID),
+  PackageNumb' at line 3
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| client         |
+| employee       |
+| manufacturers  |
+| name           |
+| pieces         |
+| planet         |
+| products       |
+| provider       |
+| providers      |
+| provides       |
+| student        |
+| t              |
++----------------+
+12 rows in set (0.00 sec)
+
+MariaDB [test]> desc products;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| Code         | int(11)       | NO   | PRI | NULL    |       |
+| Name         | varchar(255)  | NO   |     | NULL    |       |
+| Price        | decimal(10,0) | NO   |     | NULL    |       |
+| Manufacturer | int(11)       | NO   | MUL | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+MariaDB [test]> create view v1 as select code,name from products;
+Query OK, 0 rows affected (0.13 sec)
+
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| client         |
+| employee       |
+| manufacturers  |
+| name           |
+| pieces         |
+| planet         |
+| products       |
+| provider       |
+| providers      |
+| provides       |
+| student        |
+| t              |
+| v1             |
++----------------+
+13 rows in set (0.00 sec)
+
+MariaDB [test]> desv v1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'desv v1' at line 1
+MariaDB [test]> desc v1;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| code  | int(11)      | NO   |     | NULL    |       |
+| name  | varchar(255) | NO   |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+MariaDB [test]> desc products;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| Code         | int(11)       | NO   | PRI | NULL    |       |
+| Name         | varchar(255)  | NO   |     | NULL    |       |
+| Price        | decimal(10,0) | NO   |     | NULL    |       |
+| Manufacturer | int(11)       | NO   | MUL | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select * from v1;
++------+-------------+
+| code | name        |
++------+-------------+
+|    1 | Hard drive  |
+|    2 | Memory      |
+|    3 | ZIP drive   |
+|    4 | Floppy disk |
+|    5 | Monitor     |
+|    6 | DVD drive   |
++------+-------------+
+6 rows in set (0.05 sec)
+
+MariaDB [test]> create view v2 as select code,name from products where name like'%drive";
+    '> create view v2 as select code,name from products where name like'%drive';
+    '> ;
+    '> ';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '%drive';
+;
+'' at line 1
+MariaDB [test]> create view v2 as select code,name from products where name like'%drive';
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| client         |
+| employee       |
+| manufacturers  |
+| name           |
+| pieces         |
+| planet         |
+| products       |
+| provider       |
+| providers      |
+| provides       |
+| student        |
+| t              |
+| v1             |
+| v2             |
++----------------+
+14 rows in set (0.00 sec)
+
+MariaDB [test]> select * from v2;
++------+------------+
+| code | name       |
++------+------------+
+|    1 | Hard drive |
+|    3 | ZIP drive  |
+|    6 | DVD drive  |
++------+------------+
+3 rows in set (0.00 sec)
+
+MariaDB [test]> insert into v1 values(13,'iphone x');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`test`.`products`, CONSTRAINT `products_ibfk_1` FOREIGN KEY (`Manufacturer`) REFERENCES `manufacturers` (`Code`))
+MariaDB [test]> CREATE TABLE Products (  Code INTEGER,  Name VARCHAR(255) NOT NULL ,  Price DECIMAL NOT NULL ,  Manufacturer INTEGER,  PRIMARY KEY (Code),  FOREIGN KEY (Manufacturer) REFERENCES Manufacturers(Code) ON DELETE SET NULL);
+ERROR 1050 (42S01): Table 'products' already exists
+MariaDB [test]> insert into v2 values(13,'iphone x');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`test`.`products`, CONSTRAINT `products_ibfk_1` FOREIGN KEY (`Manufacturer`) REFERENCES `manufacturers` (`Code`))
+MariaDB [test]> drop table products;
+Query OK, 0 rows affected (0.23 sec)
+
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| client         |
+| employee       |
+| manufacturers  |
+| name           |
+| pieces         |
+| planet         |
+| provider       |
+| providers      |
+| provides       |
+| student        |
+| t              |
+| v1             |
+| v2             |
++----------------+
+13 rows in set (0.00 sec)
+
+MariaDB [test]>    CREATE TABLE Products (  Code INTEGER,  Name VARCHAR(255) NOT NULL ,  Price DECIMAL NOT NULL ,  Manufacturer INTEGER,  PRIMARY KEY (Code),  FOREIGN KEY (Manufacturer) REFERENCES Manufacturers(Code) ON DELETE SET NULL);
+Query OK, 0 rows affected (0.70 sec)
+
+MariaDB [test]> insert into Products values(12, '1 Tb Hard drive' , 764 , 7); insert into Products values(13, '2 Tb Hard drive' , 964 , 7); insert into Products values(14, '4 Tb Hard drive' , 1234 , 7);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`test`.`products`, CONSTRAINT `products_ibfk_1` FOREIGN KEY (`Manufacturer`) REFERENCES `manufacturers` (`Code`) ON DELETE SET NULL)
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`test`.`products`, CONSTRAINT `products_ibfk_1` FOREIGN KEY (`Manufacturer`) REFERENCES `manufacturers` (`Code`) ON DELETE SET NULL)
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`test`.`products`, CONSTRAINT `products_ibfk_1` FOREIGN KEY (`Manufacturer`) REFERENCES `manufacturers` (`Code`) ON DELETE SET NULL)
+MariaDB [test]> select * from products;
+Empty set (0.00 sec)
+
+MariaDB [test]> select * from manufacturer;
+ERROR 1146 (42S02): Table 'test.manufacturer' doesn't exist
+MariaDB [test]> select * from manufacturers;
++------+-----------------+
+| Code | Name            |
++------+-----------------+
+|    1 | Sony            |
+|    2 | Creative Labs   |
+|    3 | Hewlett-Packard |
+|    4 | Iomega          |
+|    5 | Fujitsu         |
+|    6 | Winchester      |
++------+-----------------+
+6 rows in set (0.00 sec)
+
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| client         |
+| employee       |
+| manufacturers  |
+| name           |
+| pieces         |
+| planet         |
+| products       |
+| provider       |
+| providers      |
+| provides       |
+| student        |
+| t              |
+| v1             |
+| v2             |
++----------------+
+14 rows in set (0.00 sec)
+
+MariaDB [test]> INSERT INTO Manufacturers(Code,Name) VALUES(1,'Sony');INSERT INTO Manufacturers(Code,Name) VALUES(2,'Creative Labs');INSERT INTO Manufacturers(Code,Name) VALUES(3,'Hewlett-Packard');INSERT INTO Manufacturers(Code,Name) VALUES(4,'Iomega');INSERT INTO Manufacturers(Code,Name) VALUES(5,'Fujitsu');INSERT INTO Manufacturers(Code,Name) VALUES(6,'Winchester');INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(1,'Hard drive',240,5);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(2,'Memory',120,6);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(3,'ZIP drive',150,4);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(4,'Floppy disk',5,6);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(5,'Monitor',240,1);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(6,'DVD drive',180,2);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(7,'CD drive',90,2);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(8,'Printer',270,3);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(9,'Toner cartridge',66,3);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(10,'DVD burner',180,2);
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '2' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '3' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '4' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '5' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '6' for key 'PRIMARY'
+Query OK, 1 row affected (0.11 sec)
+
+Query OK, 1 row affected (0.08 sec)
+
+Query OK, 1 row affected (0.11 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.04 sec)
+
+Query OK, 1 row affected (0.07 sec)
+
+Query OK, 1 row affected (0.04 sec)
+
+Query OK, 1 row affected (0.06 sec)
+
+Query OK, 1 row affected (0.06 sec)
+
+Query OK, 1 row affected (0.11 sec)
+
+MariaDB [test]> select * from products;
++------+-----------------+-------+--------------+
+| Code | Name            | Price | Manufacturer |
++------+-----------------+-------+--------------+
+|    1 | Hard drive      |   240 |            5 |
+|    2 | Memory          |   120 |            6 |
+|    3 | ZIP drive       |   150 |            4 |
+|    4 | Floppy disk     |     5 |            6 |
+|    5 | Monitor         |   240 |            1 |
+|    6 | DVD drive       |   180 |            2 |
+|    7 | CD drive        |    90 |            2 |
+|    8 | Printer         |   270 |            3 |
+|    9 | Toner cartridge |    66 |            3 |
+|   10 | DVD burner      |   180 |            2 |
++------+-----------------+-------+--------------+
+10 rows in set (0.00 sec)
+
+MariaDB [test]> insert into v1 values(13,'iphone x');
+Query OK, 1 row affected, 1 warning (0.06 sec)
+
+MariaDB [test]> select * from v1;
++------+-----------------+
+| code | name            |
++------+-----------------+
+|    1 | Hard drive      |
+|    2 | Memory          |
+|    3 | ZIP drive       |
+|    4 | Floppy disk     |
+|    5 | Monitor         |
+|    6 | DVD drive       |
+|    7 | CD drive        |
+|    8 | Printer         |
+|    9 | Toner cartridge |
+|   10 | DVD burner      |
+|   13 | iphone x        |
++------+-----------------+
+11 rows in set (0.00 sec)
+
+MariaDB [test]> insert into v2(13,'iphone 7');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '13,'iphone 7')' at line 1
+MariaDB [test]> insert into v2(14,'iphone 7');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '14,'iphone 7')' at line 1
+MariaDB [test]> insert into v2 values(14,'iphone 7');
+Query OK, 1 row affected, 1 warning (0.05 sec)
+
+MariaDB [test]> select * from v2;
++------+------------+
+| code | name       |
++------+------------+
+|    1 | Hard drive |
+|    3 | ZIP drive  |
+|    6 | DVD drive  |
+|    7 | CD drive   |
++------+------------+
+4 rows in set (0.00 sec)
+
+MariaDB [test]> select * from products;
++------+-----------------+-------+--------------+
+| Code | Name            | Price | Manufacturer |
++------+-----------------+-------+--------------+
+|    1 | Hard drive      |   240 |            5 |
+|    2 | Memory          |   120 |            6 |
+|    3 | ZIP drive       |   150 |            4 |
+|    4 | Floppy disk     |     5 |            6 |
+|    5 | Monitor         |   240 |            1 |
+|    6 | DVD drive       |   180 |            2 |
+|    7 | CD drive        |    90 |            2 |
+|    8 | Printer         |   270 |            3 |
+|    9 | Toner cartridge |    66 |            3 |
+|   10 | DVD burner      |   180 |            2 |
+|   13 | iphone x        |     0 |         NULL |
+|   14 | iphone 7        |     0 |         NULL |
++------+-----------------+-------+--------------+
+12 rows in set (0.00 sec)
+
+MariaDB [test]> create table v3 as select name from products;
+Query OK, 12 rows affected (0.69 sec)
+Records: 12  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> insert into v3 values(iphone);
+ERROR 1054 (42S22): Unknown column 'iphone' in 'field list'
+MariaDB [test]> insert into v3 values('iphone');
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [test]> select * from v3;
++-----------------+
+| name            |
++-----------------+
+| Hard drive      |
+| Memory          |
+| ZIP drive       |
+| Floppy disk     |
+| Monitor         |
+| DVD drive       |
+| CD drive        |
+| Printer         |
+| Toner cartridge |
+| DVD burner      |
+| iphone x        |
+| iphone 7        |
+| iphone          |
++-----------------+
+13 rows in set (0.00 sec)
+
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| client         |
+| employee       |
+| manufacturers  |
+| name           |
+| pieces         |
+| planet         |
+| products       |
+| provider       |
+| providers      |
+| provides       |
+| student        |
+| t              |
+| v1             |
+| v2             |
+| v3             |
++----------------+
+15 rows in set (0.00 sec)
+
+MariaDB [test]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| c0719506           |
+| co719506           |
+| information_schema |
+| menagerie          |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| test               |
+| test1              |
++--------------------+
+10 rows in set (0.00 sec)
+
+MariaDB [test]> use menagerie;
+Database changed
+MariaDB [menagerie]> show tables;
++---------------------+
+| Tables_in_menagerie |
++---------------------+
+| pet                 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [menagerie]> select * from pet;
+Empty set (0.05 sec)
+
+MariaDB [menagerie]> use test1;
+Database changed
+MariaDB [test1]> show tables;
++-----------------+
+| Tables_in_test1 |
++-----------------+
+| pieces          |
+| providers       |
+| provides        |
++-----------------+
+3 rows in set (0.00 sec)
+
+MariaDB [test1]> use test;
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| client         |
+| employee       |
+| manufacturers  |
+| name           |
+| pieces         |
+| planet         |
+| products       |
+| provider       |
+| providers      |
+| provides       |
+| student        |
+| t              |
+| v1             |
+| v2             |
+| v3             |
++----------------+
+15 rows in set (0.00 sec)
+
+MariaDB [test]> use menagerie;
+Database changed
+MariaDB [menagerie]> show tables;
++---------------------+
+| Tables_in_menagerie |
++---------------------+
+| pet                 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [menagerie]> select * from pet;
+Empty set (0.00 sec)
+
+MariaDB [menagerie]> use test;
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| client         |
+| employee       |
+| manufacturers  |
+| name           |
+| pieces         |
+| planet         |
+| products       |
+| provider       |
+| providers      |
+| provides       |
+| student        |
+| t              |
+| v1             |
+| v2             |
+| v3             |
++----------------+
+15 rows in set (0.00 sec)
+
+MariaDB [test]> desc audit;
+ERROR 1146 (42S02): Table 'test.audit' doesn't exist
+MariaDB [test]> desc audio;
+ERROR 1146 (42S02): Table 'test.audio' doesn't exist
+MariaDB [test]> use menagerie;
+Database changed
+MariaDB [menagerie]> show tables;
++---------------------+
+| Tables_in_menagerie |
++---------------------+
+| pet                 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [menagerie]> select * from pet;
+Empty set (0.00 sec)
+
+MariaDB [menagerie]> LOAD DATA INFILE 'c:/Users/713155/Downloads/Queries/Queries/pet.txt' INTO TABLE pet;
+ERROR 29 (HY000): File 'c:\Users\713155\Downloads\Queries\Queries\pet.txt' not found (Errcode: 2 "No such file or directory")
+MariaDB [menagerie]> use test;
+Database changed
+MariaDB [test]> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| client         |
+| employee       |
+| manufacturers  |
+| name           |
+| pieces         |
+| planet         |
+| products       |
+| provider       |
+| providers      |
+| provides       |
+| student        |
+| t              |
+| v1             |
+| v2             |
+| v3             |
++----------------+
+15 rows in set (0.00 sec)
+
+MariaDB [test]> use menagerie;
+Database changed
+MariaDB [menagerie]> show tables;
++---------------------+
+| Tables_in_menagerie |
++---------------------+
+| pet                 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [menagerie]> CREATE TABLE AUDIT(    -> OPID int AUTO_increment PRIMARY KEY,    -> tableName VARCHAR(50) NOT NULL,    -> opname VARCHAR(10) NOT NULL,    -> opDate DATETIME DEFAULT CURRENT_TIMESTAMP);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> OPID int AUTO_increment PRIMARY KEY,    -> tableName VARCHAR(50) NOT NULL,   ' at line 1
+MariaDB [menagerie]> use test;
+Database changed
+MariaDB [test]> SELECT * FROM products;
++------+-----------------+-------+--------------+
+| Code | Name            | Price | Manufacturer |
++------+-----------------+-------+--------------+
+|    1 | Hard drive      |   240 |            5 |
+|    2 | Memory          |   120 |            6 |
+|    3 | ZIP drive       |   150 |            4 |
+|    4 | Floppy disk     |     5 |            6 |
+|    5 | Monitor         |   240 |            1 |
+|    6 | DVD drive       |   180 |            2 |
+|    7 | CD drive        |    90 |            2 |
+|    8 | Printer         |   270 |            3 |
+|    9 | Toner cartridge |    66 |            3 |
+|   10 | DVD burner      |   180 |            2 |
+|   13 | iphone x        |     0 |         NULL |
+|   14 | iphone 7        |     0 |         NULL |
++------+-----------------+-------+--------------+
+12 rows in set (0.00 sec)
+
+MariaDB [test]> CREATE TABLE AUDIT(    -> OPID int AUTO_increment PRIMARY KEY,    -> tableName VARCHAR(50) NOT NULL,    -> opname VARCHAR(10) NOT NULL,    -> opDate DATETIME DEFAULT CURRENT_TIMESTAMP);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> OPID int AUTO_increment PRIMARY KEY,    -> tableName VARCHAR(50) NOT NULL,   ' at line 1
+MariaDB [test]> CREATE TABLE AUDIT(    OperationID Integer(10) Primary KEY AUTO_INCREMENT,    TableName Varchar(50) NOT NULL,    OperationName Varchar(50) NOT NULL,    Operationdate TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP);
+Query OK, 0 rows affected (1.67 sec)
+
+MariaDB [test]> select * from audit;
+Empty set (0.00 sec)
+
+MariaDB [test]> insert into audit(TableName, OperationName) VALUES('Products','Insert');
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [test]> select * from audit;
++-------------+-----------+---------------+---------------------+
+| OperationID | TableName | OperationName | Operationdate       |
++-------------+-----------+---------------+---------------------+
+|           1 | Products  | Insert        | 2017-09-15 19:24:42 |
++-------------+-----------+---------------+---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [test]> CREATE TRIGGER Insert_Check_Products AFTER INSERT ON Products     FOR EACH ROW    BEGIN        INSERT INTO AUDIT(TABLENAME,OperationName) VALUES('Products','Delete');    END; //delimiter;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'END' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '//delimiter' at line 1
+MariaDB [test]> CREATE TRIGGER Update_Check_Products AFTER UPDATE ON Products     FOR EACH ROW    BEGIN        INSERT INTO AUDIT(TABLENAME,OperationName) VALUES('Products','Update');    END; //delimiter;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'END' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '//delimiter' at line 1
+MariaDB [test]> delimiter //CREATE TRIGGER Insert_Check_Products AFTER INSERT ON Products     FOR EACH ROW    BEGIN        INSERT INTO AUDIT(TABLENAME,OperationName) VALUES('Products','Delete');    END; //delimiter;
+MariaDB [test]> delimiter //CREATE TRIGGER Insert_Check_Products AFTER INSERT ON Products     FOR EACH ROW    BEGIN        INSERT INTO AUDIT(TABLENAME,OperationName) VALUES('Products','Delete');    END; //delimiter;
+MariaDB [test]> CREATE TRIGGER Insert_Check_Products AFTER INSERT ON Products     FOR EACH ROW    BEGIN        INSERT INTO AUDIT(TABLENAME,OperationName) VALUES('Products','Delete');    END; //delimiter;
+    -> ;
+    -> ';
+    '> ;
+    '> /;
+    '> delimiter //CREATE TRIGGER Insert_Check_Products AFTER INSERT ON Products     FOR EACH ROW    BEGIN        INSERT INTO AUDIT(TABLENAME,OperationName) VALUES('Products','Delete');    END; //delimiter
+    '> ';
+    -> ;
+    -> ';
+    '> ,;
+    '> '
+    -> "
+    "> __
+    "> //
+    "> > CREATE TRIGGER Insert_Check_Products AFTER INSERT ON Products     FOR EACH ROW    BEGIN        INSERT INTO AUDIT(TABLENAME,OperationName) VALUES('Products','Delete');    END; //delimiter;
+    "> ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+    "> ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'END' at line 1
+    "> ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '//delimiter' at line 1
+    "> MariaDB [test]> CREATE TRIGGER Update_Check_Products AFTER UPDATE ON Products     FOR EACH ROW    BEGIN        INSERT INTO AUDIT(TABLENAME,OperationName) VALUES('Products','Update');    END; //delimiter;
+    "> ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+    "> ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'END' at line 1
+    "> ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '//delimiter' at line 1
+    "> MariaDB [test]> delimiter //CREATE TRIGGER Insert_Check_Products AFTER INSERT ON Products     FOR EACH ROW    BEGIN        INSERT INTO AUDIT(TABLENAME,OperationName) VALUES('Products','Delete');    END; //delimiter;
+    "> MariaDB [test]> delimiter //CREATE TRIGGER Insert_Check_Products AFTER INSERT ON Products     FOR EACH ROW    BEGIN        INSERT INTO AUDIT(TABLENAME,OperationName) VALUES('Products','Delete');    END; //delimiter;
+    "> MariaDB [test]> CREATE TRIGGER Insert_Check_Products AFTER INSERT ON Products     FOR EACH ROW    BEGIN        INSERT INTO AUDIT(TABLENAME,OperationName) VALUES('Products','Delete');    END; //delimiter;
+    "> ;
+    "> ;//
+    "> ';;
+    ">
